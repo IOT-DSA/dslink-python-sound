@@ -45,7 +45,7 @@ class SoundLink(DSLink):
 
     def queue_sound_callback(self, params):
         self.player.queue(pyglet.media.load(params["Sound Path"]))
-        if params["Play on Invoke"]:
+        if "Play on Invoke" in params and params["Play on Invoke"]:
             self.player.play()
 
 if __name__ == "__main__":
