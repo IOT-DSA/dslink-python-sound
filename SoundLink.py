@@ -1,3 +1,5 @@
+import logging
+
 from dslink.DSLink import Configuration, DSLink
 from dslink.Node import Node
 import pyglet
@@ -6,6 +8,7 @@ import pyglet
 class SoundLink(DSLink):
     def __init__(self):
         self.player = pyglet.media.Player()
+        self.sound_logger = self.create_logger("Sound", logging.DEBUG)
         super().__init__(Configuration("sound", responder=True))
 
         self.play_sound = Node("playSound", self.super_root)
@@ -28,11 +31,6 @@ class SoundLink(DSLink):
             {
                 "name": "Sound Path",
                 "type": "string"
-            },
-            {
-                "name": "Play on Invoke",
-                "type": "bool",
-                "default": True
             }
         ])
         self.super_root.add_child(self.queue_sound)
@@ -44,9 +42,10 @@ class SoundLink(DSLink):
         self.player.pause()
 
     def queue_sound_callback(self, params):
-        self.player.queue(pyglet.media.load(params["Sound Path"]))
-        if "Play on Invoke" in params and params["Play on Invoke"]:
-            self.player.play()
+        try:
+            self.player.queue(pyglet.media.load(params["Sound Path"]))
+        except pyglet.media.avbin.AVbinException:
+            self.sound_logger.warning("Could not find file: %s" % params["Sound Path"])
 
 if __name__ == "__main__":
     SoundLink()
