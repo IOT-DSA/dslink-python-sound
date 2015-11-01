@@ -4,3 +4,5 @@ dslink_python_sound.egg-info/
 avbin.dll
 dist/
 build/
+.idea/
+nodes.json
