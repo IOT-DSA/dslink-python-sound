@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name="dslink-python-sound",
-    version="0.0.1",
+    version="0.1.0",
     description="Python DSLink that can play sound files.",
     url="https://github.com/IOT-DSA/dslink-python-sound",
     author="Logan Gorence",
